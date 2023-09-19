@@ -21,14 +21,20 @@ export class TodosService {
 
     async update(id: number, dto: CreateTodoDto) {
         const todo = await this.todoRepository.findOne({ where: { id } })
-        //check that record exists
+        
+        if (!todo) {
+            throw new Error('Registro não encontrado');
+        }
+
         Object.assign(todo, dto)
         return await this.todoRepository.save(todo)
     }
 
     async delete(id:number){
         const todo = await this.todoRepository.findOne({ where: { id } })
-        //check that record exists
+        if (!todo) {
+            throw new Error('Registro não encontrado');
+         }
         
         return await this.todoRepository.remove(todo)
     }
